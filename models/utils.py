@@ -1,6 +1,8 @@
 """
 Modified from https://github.com/carpedm20/DCGAN-tensorflow/blob/master/utils.py
 """
+from __future__ import print_function
+
 import os
 import math
 import random

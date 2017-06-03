@@ -5,6 +5,8 @@ Usage:
 >> server.py --time 60 --batch 64
 >> ./make_gif.py transition --name transition --time 15 --batch 64
 """
+from __future__ import print_function
+
 import os
 os.environ["KERAS_BACKEND"] = "tensorflow"
 import time
@@ -76,7 +78,7 @@ if __name__ == "__main__":
     E_out = E(I)
     O = G.input
     G_out = G(O)
-    print "Sampling..."
+    print("Sampling...")
     for i in tqdm(range(128)):
       x = x.reshape((-1, 80, 160, 3))
       # code = E.predict(x, batch_size=args.batch*args.time)[0]

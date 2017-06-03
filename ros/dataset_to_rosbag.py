@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 
 from itertools import izip
 import numpy as np
@@ -17,7 +18,7 @@ def main():
 
   file_name = sys.argv[1]
   log_file = h5py.File('../dataset/log/{}.h5'.format(file_name))
-  camera_file = h5py.File('../dataset/camera/{}.h5'.format(file_name))  
+  camera_file = h5py.File('../dataset/camera/{}.h5'.format(file_name))
 
   zipped_log = izip(
     log_file['times'],
@@ -34,10 +35,10 @@ def main():
       m_img.step = 3 * img_data.shape[2]
       m_img.encoding = 'rgb8'
       m_img.data = np.transpose(img_data, (1, 2, 0)).flatten().tolist()
-      
+
       bag.write('/camera/image_raw', m_img, m_img.header.stamp)
       bar.next()
-      
+
     bar.finish()
 
     bar = Bar('IMU', max=len(log_file['times']))
