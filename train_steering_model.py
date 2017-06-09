@@ -53,9 +53,11 @@ if __name__ == "__main__":
   parser.add_argument('--host', type=str, default="localhost", help='Data server ip address.')
   parser.add_argument('--port', type=int, default=5557, help='Port of server.')
   parser.add_argument('--val_port', type=int, default=5556, help='Port of server for validation dataset.')
+  parser.add_argument('--buffer', dest='buffer', type=int, default=20, help='High-water mark. Increasing this increses buffer and memory usage.')
   parser.add_argument('--batch', type=int, default=64, help='Batch size.')
   parser.add_argument('--epoch', type=int, default=200, help='Number of epochs.')
   parser.add_argument('--epochsize', type=int, default=10000, help='How many frames per epoch.')
+  parser.add_argument('--valsize', type=int, default=1000, help='How many frames for validation.')
   parser.add_argument('--skipvalidate', dest='skipvalidate', action='store_true', help='Multiple path output.')
   parser.set_defaults(skipvalidate=False)
   parser.set_defaults(loadweights=False)
@@ -63,11 +65,11 @@ if __name__ == "__main__":
 
   model = get_model()
   model.fit_generator(
-    gen(20, args.host, port=args.port),
-    samples_per_epoch=10000,
+    gen(args.buffer, args.host, port=args.port),
+    samples_per_epoch=args.epochsize,
     nb_epoch=args.epoch,
-    validation_data=gen(20, args.host, port=args.val_port),
-    nb_val_samples=1000
+    validation_data=gen(args.buffer, args.host, port=args.val_port),
+    nb_val_samples=args.valsize
   )
   print("Saving model weights and configuration file.")
 
